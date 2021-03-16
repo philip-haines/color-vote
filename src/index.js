@@ -4,66 +4,84 @@ const addColorForm = document.getElementById("add-color-form");
 
 fetch(baseUrl)
 	.then(parseJson)
-	.then((colors) => {
-		colors.forEach((color) => {
-			const colorCard = document.createElement("div");
-			colorCard.className = "color-card";
-			colorCard.style.background = `${color.hex}`;
+	.then(iterateOverColors)
 
-			const colorName = document.createElement("h2");
-			colorName.innerText = color.name;
+function renderColor(color) {
+	const colorCard = document.createElement("div");
+	colorCard.className = "color-card";
+	colorCard.style.background = `${color.hex}`;
 
-			const voteCounter = document.createElement("p");
-			voteCounter.innerText = ` Votes ${color.votes}`;
+	const colorName = document.createElement("h2");
+	colorName.innerText = color.name;
 
-			const voteButton = document.createElement("button");
-			voteButton.textContent = "+1 Vote";
-			voteButton.addEventListener("click", () => {
-				color.votes++;
-				fetch(`${baseUrl}/${color.id}`, {
-					method: "PATCH",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						votes: color.votes,
-					}),
-				});
-				voteCounter.innerText = ` Votes ${color.votes}`;
-			});
+	const voteCounter = document.createElement("p");
+	voteCounter.innerText = ` Votes ${color.votes}`;
 
-			const deleteButton = document.createElement("button");
-			deleteButton.innerHTML = "&times;";
+	const voteButton = document.createElement("button");
+	voteButton.textContent = "+1 Vote";
+	voteButton.addEventListener("click", () => {
+		color.votes++;
+		fetch(`${baseUrl}/${color.id}`, {
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				votes: color.votes,
+			}),
+		});
+		voteCounter.innerText = ` Votes ${color.votes}`;
+	});
 
-			deleteButton.addEventListener("click", () => {
-				colorCard.remove();
-				fetch(`${baseUrl}/${color.id}`, {
-					method: "DELETE",
-				});
-			});
+	const deleteButton = document.createElement("button");
+	deleteButton.innerHTML = "&times;";
 
-			colorCard.append(colorName, voteCounter, voteButton, deleteButton);
-			cardContainer.append(colorCard);
+	deleteButton.addEventListener("click", () => {
+		colorCard.remove();
+		fetch(`${baseUrl}/${color.id}`, {
+			method: "DELETE",
 		});
 	});
+
+	colorCard.append(colorName, voteCounter, voteButton, deleteButton);
+	cardContainer.append(colorCard);
+};
+
+function iterateOverColors(colors){
+	colors.forEach(renderColor)
+}
+
+
+
 
 function parseJson(response) {
 	return response.json();
 }
 
-const addNewColor = () => {
+function addNewColor() {
 	addColorForm.addEventListener("submit", (e) => {
 		e.preventDefault;
 
-		const formData = new FormData(e.target);
-		const colorName = formData.get("name");
-		const colorHex = formData.get("hex");
-
-		fetch(`${baseUrl}`, {
+		// const formData = new FormData(e.target);
+		// const colorName = formData.get("name");
+		// const colorHex = formData.get("hex");
+		color = {
+			"name": color.name
+			"hex": color.hex
+			"votes": 0
+		}
+		options = {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
+				Accept: "application/json"
 			},
+			body: JSON.stringify(color)
+				
+		},
+
+		fetch(`${baseUrl}`, {
+			
 			body: JSON.stringify({
 				name: colorName,
 				hex: colorHex,
