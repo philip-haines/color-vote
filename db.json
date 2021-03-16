@@ -4,19 +4,31 @@
       "id": 2,
       "name": "Aqua",
       "hex": "#00FFFF",
-      "votes": 8
+      "votes": 11
     },
     {
       "name": "Jelly",
       "hex": "#832020",
-      "votes": 7,
+      "votes": 15,
       "id": 3
     },
     {
       "name": "Maple",
       "hex": "#443022",
-      "votes": 3,
+      "votes": 12,
       "id": 4
+    },
+    {
+      "name": "Beautimus Blue",
+      "hex": "#1d13a4",
+      "votes": 0,
+      "id": 5
+    },
+    {
+      "name": "Perfect Purple",
+      "hex": "#8c07a6",
+      "votes": 0,
+      "id": 7
     }
   ]
 }
